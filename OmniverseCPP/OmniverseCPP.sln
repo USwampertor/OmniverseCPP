@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovUSDCreation", "ovUSDCreation\ovUSDCreation.vcxproj", "{1BEA5D7E-E6D6-4B50-87F2-753B27350366}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovUSDLoading", "ovUSDLoading\ovUSDLoading.vcxproj", "{BF9BD52F-BC71-40CC-BC87-7ECC97123B8A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovUSDLiveSync", "ovUSDLiveSync\ovUSDLiveSync.vcxproj", "{98E0DBA6-199D-4AEB-B24E-1FD0B9C4EF12}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorMaya", "ovConnectorMaya\ovConnectorMaya.vcxproj", "{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorPhotoshop", "ovConnectorPhotoshop\ovConnectorPhotoshop.vcxproj", "{133425A8-7417-41BF-A7D0-E97D2F88C946}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorCustomEngine", "ovConnectorCustomEngine\ovConnectorCustomEngine.vcxproj", "{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BEA5D7E-E6D6-4B50-87F2-753B27350366}.Debug|x64.ActiveCfg = Debug|x64
+		{1BEA5D7E-E6D6-4B50-87F2-753B27350366}.Debug|x64.Build.0 = Debug|x64
+		{1BEA5D7E-E6D6-4B50-87F2-753B27350366}.Release|x64.ActiveCfg = Release|x64
+		{1BEA5D7E-E6D6-4B50-87F2-753B27350366}.Release|x64.Build.0 = Release|x64
+		{BF9BD52F-BC71-40CC-BC87-7ECC97123B8A}.Debug|x64.ActiveCfg = Debug|x64
+		{BF9BD52F-BC71-40CC-BC87-7ECC97123B8A}.Debug|x64.Build.0 = Debug|x64
+		{BF9BD52F-BC71-40CC-BC87-7ECC97123B8A}.Release|x64.ActiveCfg = Release|x64
+		{BF9BD52F-BC71-40CC-BC87-7ECC97123B8A}.Release|x64.Build.0 = Release|x64
+		{98E0DBA6-199D-4AEB-B24E-1FD0B9C4EF12}.Debug|x64.ActiveCfg = Debug|x64
+		{98E0DBA6-199D-4AEB-B24E-1FD0B9C4EF12}.Debug|x64.Build.0 = Debug|x64
+		{98E0DBA6-199D-4AEB-B24E-1FD0B9C4EF12}.Release|x64.ActiveCfg = Release|x64
+		{98E0DBA6-199D-4AEB-B24E-1FD0B9C4EF12}.Release|x64.Build.0 = Release|x64
+		{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}.Debug|x64.ActiveCfg = Debug|x64
+		{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}.Debug|x64.Build.0 = Debug|x64
+		{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}.Release|x64.ActiveCfg = Release|x64
+		{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}.Release|x64.Build.0 = Release|x64
+		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Debug|x64.ActiveCfg = Debug|x64
+		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Debug|x64.Build.0 = Debug|x64
+		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Release|x64.ActiveCfg = Release|x64
+		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Release|x64.Build.0 = Release|x64
+		{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}.Debug|x64.ActiveCfg = Debug|x64
+		{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}.Debug|x64.Build.0 = Debug|x64
+		{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}.Release|x64.ActiveCfg = Release|x64
+		{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C91B5F4-26C3-4215-ACA1-F5C50310AEBE}
+	EndGlobalSection
+EndGlobal
