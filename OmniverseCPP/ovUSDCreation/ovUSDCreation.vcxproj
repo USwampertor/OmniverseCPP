@@ -45,22 +45,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformTarget)/</OutDir>
+    <OutDir>$(SolutionDir)bin/$(Configuration)/</OutDir>
     <IntDir>$(SolutionDir)intermediate/$(ProjectName)/$(PlatformTarget)/$(Configuration)/</IntDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformTarget)/</OutDir>
+    <OutDir>$(SolutionDir)bin/$(Configuration)/</OutDir>
     <IntDir>$(SolutionDir)intermediate/$(ProjectName)/$(PlatformTarget)/$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;TBB_USE_DEBUG=1;_CRT_SECURE_NO_WARNINGS;DEBUG;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(OMNIVERSE_SDK)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(OMNIVERSE_SDK)include/;$(SolutionDir)ovOmniverseModule/include/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -68,19 +68,19 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OMNIVERSE_SDK)lib/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ar.lib;arch.lib;gf.lib;js.lib;kind.lib;pcp.lib;plug.lib;sdf.lib;tf.lib;trace.lib;usd.lib;usdGeom.lib;vt.lib;work.lib;usdShade.lib;usdLux.lib;omniclient.lib;python37.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OMNIVERSE_SDK)lib/$(Configuration)/;$(SolutionDir)lib/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ar.lib;arch.lib;gf.lib;js.lib;kind.lib;pcp.lib;plug.lib;sdf.lib;tf.lib;trace.lib;usd.lib;usdGeom.lib;vt.lib;work.lib;usdShade.lib;usdLux.lib;omniclient.lib;python37.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;TBB_USE_DEBUG=0;_CRT_SECURE_NO_WARNINGS;NDEBUG;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(OMNIVERSE_SDK)include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(OMNIVERSE_SDK)include/;$(SolutionDir)ovOmniverseModule/include/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -90,8 +90,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OMNIVERSE_SDK)lib/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ar.lib;arch.lib;gf.lib;js.lib;kind.lib;pcp.lib;plug.lib;sdf.lib;tf.lib;trace.lib;usd.lib;usdGeom.lib;vt.lib;work.lib;usdShade.lib;usdLux.lib;omniclient.lib;python37.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OMNIVERSE_SDK)lib/$(Configuration)/;$(SolutionDir)lib/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ar.lib;arch.lib;gf.lib;js.lib;kind.lib;pcp.lib;plug.lib;sdf.lib;tf.lib;trace.lib;usd.lib;usdGeom.lib;vt.lib;work.lib;usdShade.lib;usdLux.lib;omniclient.lib;python37.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ovOmniverseFunctions.h" />
+    <ClInclude Include="include\ovPrerequisites.h" />
+    <ClInclude Include="include\ovUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

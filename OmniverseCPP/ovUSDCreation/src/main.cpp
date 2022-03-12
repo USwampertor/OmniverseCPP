@@ -10,6 +10,7 @@
 /*0***0***0***0***0***0***0***0***0***0***0***0***0***0***0***0*/
 
 #include "ovOmniverseFunctions.h"
+#include "ovUtils.h"
 
 /*
  *	@brief		The main entry of the executable
@@ -20,17 +21,24 @@
 int 
 main(int argc, char* argv[]) {
   // This will be the path where we will write our own first USD
-  String destinationPath = "omniverse://localhost/OmniverseCPP/";
+  String destinationPath = "omniverse://localhost/Projects/OmniverseCPP/";
   
   // So we can have a control of errors, we will use a try catch that englobes the whole
   // project
   try
   {
-
-
+     if (!initialize(true)) {
+        throw Exception(Utils::format("Error thrown at: %s", g_error.c_str()).c_str());
+     }
+     const String stageURL = createStage(destinationPath);
+     printf("Connected user: %s", getUserName(stageURL).c_str());
+     shutdown();
   }
-  catch (Exception* e)
+  catch (const Exception& e)
   {
-    cout << String("Error found at: ") << e->what() << endl;
+     cout << String("There was a problem with Omniverse \n") << e.what() << endl;
+     return -1;
   }
+
+  return 0;
 }

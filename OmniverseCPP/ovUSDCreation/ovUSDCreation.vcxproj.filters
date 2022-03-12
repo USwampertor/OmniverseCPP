@@ -23,5 +23,11 @@
     <ClInclude Include="include\ovOmniverseFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\ovUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ovPrerequisites.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
