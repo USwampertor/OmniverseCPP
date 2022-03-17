@@ -2,14 +2,15 @@
     <img src="./docs/resources/portrait.png" alt="project banner" width=500 height=250>
 </p>
 
+
 # OmniverseCPP
 
-[![Build status](https://ci.appveyor.com/api/projects/status/rb5euthqh2igawx5?svg=true)](https://ci.appveyor.com/project/USwampertor/omniversecpp) [![Documentation](https://img.shields.io/badge/Documentation-in%20progress-orange?style=flat&logo=github)](./docs/MAIN.md)
+[![Build status](https://ci.appveyor.com/api/projects/status/rb5euthqh2igawx5?svg=true)](https://ci.appveyor.com/project/USwampertor/omniversecpp) [![Documentation](https://img.shields.io/badge/Documentation-in%20progress-orange?style=flat&logo=bookstack)](./docs/MAIN.md) [![Omniverse Client Library](https://img.shields.io/badge/Omniverse%20Client%20Library-v1.3.19-green?logo=nvidia)](https://docs.omniverse.nvidia.com/con_connect/con_connect/overview.html?highlight=omniverse%20client%20library)
 
 
-OmniverseCPP is a collection of tutorials that provide new developers, students and teachers alike a way of understanding how Nvidia Omniverse works with the Omniverse Client Library, the Omniverse C++ SDK, and create C++ connectors that work with the platform. Learn how Nvidia Omniverse and the Nucleus System work, understand the insides of the USD system and create new applications that can sync and be integrated into the Omniverse ecosystem.
+OmniverseCPP is a collection of tutorials that provide new developers, students and teachers alike a way of understanding how Nvidia Omniverse<sup>TM</sup> works with the Omniverse Client Library, the Omniverse C++ SDK, and create C++ connectors that work with the platform. Learn how Nvidia Omniverse and the Nucleus System work, understand the insides of the USD system and create new applications that can sync and be integrated into the Omniverse ecosystem.
 
-* [Documentation](./docs/Tutorials/General.md)
+* [Documentation](./docs/MAIN.md)
 
 
 ## Features
@@ -23,10 +24,10 @@ OmniverseCPP is a collection of tutorials that provide new developers, students 
 ## Overview
 ---
 
-The project contains a set of solutions that refer to different aspects of the Omniverse platform
+The project contains a set of solutions that refer to different aspects of the Omniverse platform while working with the C++ SDK
 
-* Logging into Nucleus Platform
-* How USD works in Nvidia Omniverse
+* Connecting to the Nvidia Omniverse<sup>TM</sup> Platform and Nucleus
+* How Pixar USD works
 * Create, upload and get information from USD
 * Syncing information in real time
 * Creating connectors for custom plugins and applications
@@ -50,7 +51,7 @@ After cloning, set up the required Environment Variables and start the tutorials
 
 Each tutorial has a respective Markdown file to help you understand step by step the how to of the Omniverse SDK and the creation of connectors. 
 
-**To start with the tutorials, first read the Before Starting section at [General.md](./docs/Tutorials/General.md#before-beggining)**
+**To start with the tutorials, first read the Before Starting section [HERE](./docs/Tutorials/General.md#before-beggining)**
 
 ## About the author
 ---
