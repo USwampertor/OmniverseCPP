@@ -1,6 +1,6 @@
-<div style="text-align:center">
+<p align="center">
     <img src="./docs/resources/portrait.png" alt="project banner" width=500 height=250>
-</div>
+</p>
 
 # OmniverseCPP
 
