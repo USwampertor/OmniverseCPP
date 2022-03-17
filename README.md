@@ -1,13 +1,13 @@
-<center>
+<div style="text-align:center">
     <img src="./docs/resources/portrait.png" alt="project banner" width=500 height=250>
-</center>
+</div>
 
 # OmniverseCPP
 
-[![Build status](https://ci.appveyor.com/api/projects/status/rb5euthqh2igawx5?svg=true)](https://ci.appveyor.com/project/USwampertor/omniversecpp) [![Documentation](https://img.shields.io/badge/Documentation-in%20progress-orange?style=flat&logo=github)](https://img.shields.io/badge/Documentation-in%20progress-orange?style=flat&logo=github)
+[![Build status](https://ci.appveyor.com/api/projects/status/rb5euthqh2igawx5?svg=true)](https://ci.appveyor.com/project/USwampertor/omniversecpp) [![Documentation](https://img.shields.io/badge/Documentation-in%20progress-orange?style=flat&logo=github)](./docs/MAIN.md)
 
 
-OmniverseCPP is a collection of tutorials that provide new developers, students and teachers alike a way of understanding how Nvidia Omniverse works with the Omniverse Client Library, the Omniverse C++ SDK, and create C++ connectors that work with the platform.
+OmniverseCPP is a collection of tutorials that provide new developers, students and teachers alike a way of understanding how Nvidia Omniverse works with the Omniverse Client Library, the Omniverse C++ SDK, and create C++ connectors that work with the platform. Learn how Nvidia Omniverse and the Nucleus System work, understand the insides of the USD system and create new applications that can sync and be integrated into the Omniverse ecosystem.
 
 * [Documentation](./docs/Tutorials/General.md)
 
