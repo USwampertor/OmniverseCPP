@@ -10,7 +10,7 @@
 
 OmniverseCPP is a collection of tutorials that provide new developers, students and teachers alike a way of understanding how Nvidia Omniverse<sup>TM</sup> works with the Omniverse Client Library, the Omniverse C++ SDK, and create C++ connectors that work with the platform. Learn how Nvidia Omniverse and the Nucleus System work, understand the insides of the USD system and create new applications that can sync and be integrated into the Omniverse ecosystem.
 
-* [Documentation](./docs/MAIN.md)
+* **[Documentation](./docs/MAIN.md)**
 
 
 ## Features
@@ -51,7 +51,7 @@ After cloning, set up the required Environment Variables and start the tutorials
 
 Each tutorial has a respective Markdown file to help you understand step by step the how to of the Omniverse SDK and the creation of connectors. 
 
-**To start with the tutorials, first read the Before Starting section [HERE](./docs/Tutorials/General.md#before-beggining)**
+**To start with the tutorials, first read the Before Starting section [HERE](./docs/Tutorials/TUTORIALS.md#before-beggining)**
 
 ## About the author
 ---
