@@ -1,4 +1,8 @@
 <p align="center">
+    <img src="./docs/resources/banner1.png" alt="project banner" width=800 height=133>
+</p>
+
+<p align="center">
     <img src="./docs/resources/portrait.png" alt="project banner" width=500 height=250>
 </p>
 

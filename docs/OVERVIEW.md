@@ -1,3 +1,8 @@
+<p align="center">
+    <img src="./resources/banner1.png" alt="project banner" width=800 height=133>
+</p>
+
+
 # Overview
 
 ## Nvidia Omniverse<sup>TM</sup>
