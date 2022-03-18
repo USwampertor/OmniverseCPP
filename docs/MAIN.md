@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./resources/banner1.png" alt="project banner" width=800 height=133>
+    <img src="./resources/banner1.png" alt="project banner" width=100%>
 </p>
 
 # OmniverseCPP Documentation

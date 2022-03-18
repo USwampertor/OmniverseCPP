@@ -1,9 +1,9 @@
 <p align="center">
-    <img src="./docs/resources/banner1.png" alt="project banner" width=800 height=133>
+    <img src="./docs/resources/banner1.png" alt="project banner" width=100%>
 </p>
 
 <p align="center">
-    <img src="./docs/resources/portrait.png" alt="project banner" width=500 height=250>
+    <img src="./docs/resources/portrait.png" alt="project banner" width=50%>
 </p>
 
 
