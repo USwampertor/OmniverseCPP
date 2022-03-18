@@ -47,7 +47,7 @@ The project is intended to work with cmake as well in the future.
 
 ```
 
-Get the latest source code by cloning the project from Github:
+Get the latest source code by cloning the project from Github with `git clone` or with your preferred app:
 
 >   git clone https://github.com/USwampertor/OmniverseCPP.git
 
