@@ -10,9 +10,10 @@ This is the index for the OmniverseCPP Documentation. The intention for this is 
 ---
 
 1. [Overview](./OVERVIEW.md) 
-    1. [Nvidia Omniverse<sup>TM</sup>](./OVERVIEW.md#nvidia-omniversesuptmsup)
-    2. [Nvidia Omniverse<sup>TM</sup> Connect](./OVERVIEW.md#nvidia-omniversesuptmsup-connect)
-    3. [Pixar USD](./OVERVIEW.md#pixar-usd)
+    1. [Nvidia Omniverse™](./OVERVIEW.md#nvidia-omniverse™)
+    3. [Nvidia Omniverse™ Nucleus](./OVERVIEW.md#nvidia-omniverse™-nucleus)
+    2. [Nvidia Omniverse™ Connect](./OVERVIEW.md#nvidia-omniverse™-connect)
+    4. [Pixar USD](./OVERVIEW.md#pixar-usd)
 2. [Installation](./INSTALLATION.md)
     1. [Before beginning](./INSTALLATION.md#before-beginning)
     2. [Prerequisites](./INSTALLATION.md#prerequisites)

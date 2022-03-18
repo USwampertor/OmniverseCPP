@@ -7,19 +7,53 @@
 
 This section contains the general information and basic theory of the tools you will use to start working with the Nvidia Omnvierse platform and the C++ Omniverse Client Library.
 
-> :warning: **NOTE**: This project asumes that you know and have worked previously with C++. 
-> It is not intended to teach C++, but a C++ system and how it works. I designed the tutorials in a way they are as comprehensible as they can be, so I hope that if you reading this wants to learn C++, find this helpful as well.
+> :warning: **NOTE**:
+> This project asumes that you know and have worked previously with C++. It is not intended to teach C++, but a C++ system and how it works
+> I designed the tutorials in a way they are as comprehensible as they can be, so I hope that if you reading this wants to learn C++, find this helpful as well.
 
->[!WARNING]
->This is a warning
+## Nvidia Omniverse™
 
-## Nvidia Omniverse<sup>TM</sup>
+<p align="center">
+    <img src="./resources/nvidiaOmniverse.jpg" alt="Nvidia Omniverse" width=50%>
+</p>
 
-Nvidia Omniverse<sup>TM</sup> is 
-
-## Nvidia Omniverse<sup>TM</sup> Connect
+NVIDIA Omniverse™ is an **open platform for virtual collaboration and real-time physically accurate simulation.** Creators, designers, and engineers can accelerate their workflows with **one-click interoperability between leading software tools in a shared virtual world.** Running on NVIDIA RTX™, breathtaking, high-fidelity models can be instantly shared to any device.
 
 
+The platform is easily extensible and built to host a diversity of applications to create a better 3D workflow, building new tools and services that can be connected amongst each other to collaborate and iterate in the virtual space.
+
+<p align="center">
+    <img src="./resources/nvidiaOmniverse1.jpg" alt="Nvidia Omniverse" width=100%>
+</p>
+
+This platform is designed for
+* **Individual Creators** Omniverse revolutionizes the creative workflow by enabling real-time interoperability between top industry apps, removing the antiquated need for export/import
+* **Developers** Application developers can integrate Omniverse technologies directly inside their applications or inversely, can deliver their tools and technologies to multiple DCC applications and workflows through a single platform integration.
+
+The Omniverse platform consists of 5 key parts
+* **Nucleus**: The database and collaboration engine of the Omniverse platform.
+* **Connect**: The plugin system that enables client application to connect to Nucleus and interact with it.
+* **Kit**: A powerful toolkit for developers to build extensions, apps, microservices and plugins for the ecosystem.
+* **Simulation**: A platform created to develop physically accurate world simulations.
+* **RTX Renderer**: A renderer system accelerated by RTX technology.
+
+
+_You can find more information on Nvidia Omniverse™ in the official page **[HERE](https://www.nvidia.com/en-us/omniverse/)**_
+
+## Nvidia Omniverse™ Nucleus
+
+<p align="center">
+    <img src="./resources/omniverseNucleus.png" alt="Nvidia Omniverse" width=50%>
+</p>
+
+Omniverse Nucleus is the heart of the collaboration system of the platform. This database and collaboration engine allows applications to share, edit and collab between applications that are connected too the platform. You can publish files to the database and subscribe to to changes that are made in real time by the connected applications.
+
+
+_You can find more information on Nvidia Omniverse™ Nucleus in the official page **[HERE](https://docs.omniverse.nvidia.com/prod_nucleus/prod_nucleus/overview.html)**_
+
+## Nvidia Omniverse™ Connect
+
+_You can find more information on Nvidia Omniverse™ Connect in the official page **[HERE](https://docs.omniverse.nvidia.com/con_connect/con_connect/overview.html)**_
 
 ## Pixar USD
 
