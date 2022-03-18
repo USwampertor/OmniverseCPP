@@ -18,7 +18,7 @@
 // While I do not personally like global variables, we will create ones for the example
 // So things can be easy to understand
 static bool           g_doLiveEdit = true;
-static bool           g_omniverseLogEnabled = true;
+static bool           g_omniverseLogEnabled = false;
 static String         g_error;
 static UsdStageRefPtr g_stage;
 Mutex                 g_LogMutex;

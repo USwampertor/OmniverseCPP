@@ -60,7 +60,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;TBB_USE_DEBUG=1;_CRT_SECURE_NO_WARNINGS;DEBUG;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(OMNIVERSE_SDK)include/;$(SolutionDir)ovOmniverseModule/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(SolutionDir)ov/include/;$(SolutionDir)ovOmniverseModule/include/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -68,7 +68,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OMNIVERSE_SDK)lib/$(Configuration)/;$(SolutionDir)lib/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ov/lib/$(Configuration)/;$(SolutionDir)lib/$(Configuration)/</AdditionalLibraryDirectories>
       <AdditionalDependencies>ar.lib;arch.lib;gf.lib;js.lib;kind.lib;pcp.lib;plug.lib;sdf.lib;tf.lib;trace.lib;usd.lib;usdGeom.lib;vt.lib;work.lib;usdShade.lib;usdLux.lib;omniclient.lib;python37.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -80,7 +80,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>BOOST_ALL_DYN_LINK;TBB_USE_DEBUG=0;_CRT_SECURE_NO_WARNINGS;NDEBUG;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(OMNIVERSE_SDK)include/;$(SolutionDir)ovOmniverseModule/include/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(Projectname)/include/;$(SolutionDir)ov/include/;$(SolutionDir)ovOmniverseModule/include/</AdditionalIncludeDirectories>
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
@@ -90,7 +90,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OMNIVERSE_SDK)lib/$(Configuration)/;$(SolutionDir)lib/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)ov/lib/$(Configuration)/;$(SolutionDir)lib/$(Configuration)/</AdditionalLibraryDirectories>
       <AdditionalDependencies>ar.lib;arch.lib;gf.lib;js.lib;kind.lib;pcp.lib;plug.lib;sdf.lib;tf.lib;trace.lib;usd.lib;usdGeom.lib;vt.lib;work.lib;usdShade.lib;usdLux.lib;omniclient.lib;python37.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

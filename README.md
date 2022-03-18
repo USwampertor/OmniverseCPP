@@ -49,11 +49,20 @@ The project is intended to work with cmake as well in the future.
 
 Get the latest source code by cloning the project from Github:
 
->   git clone https://github.com/networkprotocol/yojimbo.git
+>   git clone https://github.com/USwampertor/OmniverseCPP.git
 
-After cloning, set up the required Environment Variables and start the tutorials.
+The project comes with the latest Omniverse Client Library, which you can find here:
 
-Each tutorial has a respective Markdown file to help you understand step by step the how to of the Omniverse SDK and the creation of connectors. 
+> path/to/OmniverseCPP/OmniverseCPP/ov
+
+
+This folder includes
+
+* lib which holds all static libraries
+* include which holds all .h files
+* bin which includes all dynamic libraries
+
+Each solution also has a respective Markdown file to help you understand step by step the proccess of creating the app, and the tutorials. 
 
 **To start with the tutorials, first read the Before Starting section [HERE](./docs/Tutorials/TUTORIALS.md#before-beggining)**
 
