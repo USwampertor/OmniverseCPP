@@ -250,6 +250,9 @@ OMNICLIENT_EXPORT(void)
 // ===============
 
 // Retrieve information about the server for a specified URL
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientGetServerInfo(char const* url, void* userData, OmniClientGetServerInfoCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -261,6 +264,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // Retrieve information about a single item
 // This works on both files and folders
 // The "relativePath" in the entry is blank
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientStat(char const* url, void* userData, OmniClientStatCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -300,6 +306,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 //      4. omniverse://ov-materials/wood/oak.mdl
 //      5. file:/c:/materials/wood/oak.mdl
 // If found, "url" will be the FULL URL of the item that was found
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientResolve(char const* relativePath, char const* const* searchPaths, uint32_t numSearchPaths, void* userData, OmniClientResolveCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -352,6 +361,9 @@ OMNICLIENT_EXPORT(bool)
 // ====
 
 // Retrieve contents of a folder
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientList(char const* url, void* userData, OmniClientListCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -359,6 +371,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // Subscribe to change notifications for a url
 // 'callback' is called once with the initial list
 // then 'subscribeCallback' may be called multiple times after that as items change
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientListSubscribe(char const* url, void* userData, OmniClientListCallback callback, OmniClientListSubscribeCallback subscribeCallback)
     OMNICLIENT_NOEXCEPT;
@@ -369,6 +384,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 
 // Delete something (file, folder, mount, liveFile, channel etc..)
 // wildcards are not supported
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientDelete(char const* url, void* userData, OmniClientDeleteCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -384,6 +402,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // Destination folders will be created as needed.
 // Returns eOmniClientResult_ErrorAlreadyExists if "dstUrl" already exists
 // Trailing slashes are ignored!
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientCopy(char const* srcUrl, char const* dstUrl, void* userData, OmniClientCopyCallback callback, OmniClientCopyBehavior behavior OMNICLIENT_DEFAULT(eOmniClientCopy_ErrorIfExists))
     OMNICLIENT_NOEXCEPT;
@@ -394,6 +415,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 
 // Create a folder
 // Returns eOmniClientResult_ErrorAlreadyExists if the URL already exists (note that it may not actually be a folder!)
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientCreateFolder(char const* url, void* userData, OmniClientCreateFolderCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -406,6 +430,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // This function "takes" the content buffer, by clearing it to 0
 // it calls content->free(content->buffer) when it's finished with it (which may be some time in the future)
 // FIXME: Support streaming writes
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientWriteFile(char const* url, struct OmniClientContent* content, void* userData, OmniClientWriteFileCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -415,8 +442,21 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // buffer by clearing it to 0 inside the callback (after copying it somewhere else, of course). You are then
 // responsible for calling content->free(content->buffer) when you're finished with it
 // FIXME: Support streaming reads
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientReadFile(char const* url, void* userData, OmniClientReadFileCallback callback)
+    OMNICLIENT_NOEXCEPT;
+
+// Get a local file name for the URL
+// If the URL already points to a local file, it is returned directly
+// Otherwise, this downloads the file to a local location and return that location
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
+OMNICLIENT_EXPORT(OmniClientRequestId)
+    omniClientGetLocalFile(char const* url, void* userData, OmniClientGetLocalFileCallback callback)
     OMNICLIENT_NOEXCEPT;
 
 // =======
@@ -429,6 +469,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // The content buffer is normally freed after the callback returns. To prevent this, "take" the content
 // buffer by clearing it to 0 inside the callback (after copying it somewhere else, of course). You are then
 // responsible for calling content->free(content->buffer) when you're finished with it
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientJoinChannel(char const* url, void* userData, OmniClientJoinChannelCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -439,6 +482,9 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // Returns 0 in that case
 // This function takes ownership of the content
 // it calls content->free(content->buffer) when it's finished with it (which may be some time in the future)
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientSendMessage(OmniClientRequestId joinRequestId, struct OmniClientContent* content, void* userData, OmniClientSendMessageCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -448,11 +494,17 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // ====
 
 // Retrieve the ACLs for an item
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientGetAcls(char const* url, void* userData, OmniClientGetAclsCallback callback)
     OMNICLIENT_NOEXCEPT;
 
 // Set ACLs for an item
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientSetAcls(char const* url, uint32_t numEntries, struct OmniClientAclEntry* entries, void* userData, OmniClientSetAclsCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -463,15 +515,17 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 
 // Lock a file so no other clients can modify it
 // The file is automatically unlocked when you disconnect
-// Note: You may need to call omniUsdLiveProcess in order to process the result if you lock a live USD file.
-//       For this reason it may not be safe to call omniClientWait on the returned request Id
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientLock(char const* url, void* userData, OmniClientLockCallback callback)
     OMNICLIENT_NOEXCEPT;
 
 // Unlock a file so other clients can modify it
-// Note: You may need to call omniUsdLiveProcess in order to process the result if you unlock a live USD file.
-//       For this reason it may not be safe to call omniClientWait on the returned request Id
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientUnlock(char const* url, void* userData, OmniClientUnlockCallback callback)
     OMNICLIENT_NOEXCEPT;
@@ -483,12 +537,18 @@ OMNICLIENT_EXPORT(OmniClientRequestId)
 // Create a checkpoint for a given URL (which can include a branch, otherwise assume the default branch)
 // Returns a query you can combine this with the source url to retrieve this specific checkpoint
 // 'force=true' will create a checkpoint even if there are no changes
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientCreateCheckpoint(char const* url, char const* comment, bool force, void* userData, OmniClientCreateCheckpointCallback callback)
     OMNICLIENT_NOEXCEPT;
 
 // Returns a list of checkpoints for a URL
 // The "relativePath" in the entries list is a query that you can use with the original URL to access this checkpoint
+//
+// NOTE: If this function is called after omniClientShutdown, kInvalidRequestId will be returned, and the callback will
+// not be called.
 OMNICLIENT_EXPORT(OmniClientRequestId)
     omniClientListCheckpoints(char const* url, void* userData, OmniClientListCheckpointsCallback callback)
     OMNICLIENT_NOEXCEPT;

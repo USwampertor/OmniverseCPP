@@ -24,13 +24,13 @@ PXR_NAMESPACE_USING_DIRECTIVE
 // Making things easier to work with, will rename a few classes and define we are
 // using a few variables
 
-using String = std::string;
-using int32 = int32_t;
-using Exception = std::exception;
-using Mutex = std::mutex;
-
-template<typename T>
-using UniqueLock = std::unique_lock<T>;
-
-using std::cout;
-using std::endl;
+// using String = std::string;
+// using int32 = int32_t;
+// using Exception = std::exception;
+// using Mutex = std::mutex;
+// 
+// template<typename T>
+// using UniqueLock = std::unique_lock<T>;
+// 
+// using std::cout;
+// using std::endl;

@@ -24,6 +24,7 @@ typedef enum
 } OmniClientLogLevel;
 
 typedef uint64_t OmniClientRequestId;
+static const OmniClientRequestId kInvalidRequestId = UINT64_MAX;
 
 typedef enum
 {
@@ -241,16 +242,6 @@ struct OmniClientCredentials
     struct OmniClientContent username;
     struct OmniClientContent password;
 };
-
-// Through this callback the application may receive the authentication status.
-// This is useful for showing a modal dialog preventing interaction with the client UI
-// until authentication (possibly involving other applications, like a system browser or
-// Omniverse System Monitor) finished or cancelled.
-typedef enum
-{
-    eOmniClientAuthenticationInProgress,
-    eOmniClientAuthenticationFinished
-} OmniClientAuthenticationMessageBoxReason;
 
 typedef enum
 {

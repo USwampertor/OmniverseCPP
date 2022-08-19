@@ -13,37 +13,37 @@
 
 struct Utils {
   static void
-  runCommand(const String& commandLine) {
+  runCommand(const std::string& commandLine) {
     system(commandLine.c_str());
   }
 
   template<typename ... Args>
-  static String 
-  format(const String& format, Args ... args) {
-    int32 size_s = snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
-    if (size_s <= 0) { ThrowRuntimeError("Error during formatting."); }
+  static std::string 
+  format(const std::string& format, Args ... args) {
+    int size_s = snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
+    if (size_s <= 0) { throwRuntimeError("Error during formatting."); }
     auto size = static_cast<size_t>(size_s);
     auto buf = std::make_unique<char[]>(size);
     snprintf(buf.get(), size, format.c_str(), args ...);
-    return String(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
+    return std::string(buf.get(), buf.get() + size - 1); // We don't want the '\0' inside
   }
 
   template<typename T>
-  static String 
+  static std::string 
   toString(const T& number) {
     return std::to_string(number);
   }
 
   static void 
-  ThrowException(const String& message) {
+  throwException(const std::string& message) {
     throw::std::exception(message.c_str());
   }
 
   static void 
-  ThrowRuntimeError(const String& message) {
+  throwRuntimeError(const std::string& message) {
     throw::std::runtime_error(message.c_str());
   }
 
-  static const String BLANK;
+  static const std::string BLANK;
 
 };

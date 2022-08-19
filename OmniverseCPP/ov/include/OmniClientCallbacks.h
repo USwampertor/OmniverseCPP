@@ -46,7 +46,7 @@ typedef bool
 // until authentication (possibly involving other applications, like a system browser or
 // Omniverse System Monitor) finished or cancelled.
 typedef void
-    (OMNICLIENT_ABI* OmniClientSetAuthenticationMessageBoxCallback)(void* userData, OmniClientAuthenticationMessageBoxReason reason, const char* server)
+    (OMNICLIENT_ABI* OmniClientSetAuthenticationMessageBoxCallback)(void* userData, bool show, const char* server)
     OMNICLIENT_CALLBACK_NOEXCEPT;
 
 typedef void
@@ -97,6 +97,10 @@ typedef void
 
 typedef void
     (OMNICLIENT_ABI* OmniClientReadFileCallback)(void* userData, OmniClientResult result, char const* version, struct OmniClientContent* content)
+    OMNICLIENT_CALLBACK_NOEXCEPT;
+
+typedef void
+    (OMNICLIENT_ABI* OmniClientGetLocalFileCallback)(void* userData, OmniClientResult result, char const* localFilePath)
     OMNICLIENT_CALLBACK_NOEXCEPT;
 
 typedef void

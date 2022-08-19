@@ -19,7 +19,6 @@ When live mode is disabled:
 * You will not receive updates from other users.
 * Saving a layer will OVERWRITE it on the server.
 * Saving a layer will BLOCK until the layer has been saved.
-* omniUsdLiveLock & omniUsdLiveUnlock don't do anything.
 * This is functionally equivalent to using Omniverse like a filesystem.
 
 When live mode is enabled:
@@ -31,7 +30,6 @@ When live mode is enabled:
     that you have sent (from calling Save).
 * You may call omniUsdLiveWaitForPendingUpdates to block until the server has acknowledged
     all the updates that you have sent to it.
-* You may call omniUsdLiveLock to prevent other users from modifying a layer.
 
 Live mode can be set per-layer with a global default.
 */
@@ -103,31 +101,6 @@ OMNICLIENT_EXPORT(uint64_t)
 // You should only have to call this at shutdown.
 OMNICLIENT_EXPORT(void)
     omniUsdLiveWaitForPendingUpdates()
-    OMNICLIENT_NOEXCEPT;
-
-typedef void
-    (OMNICLIENT_ABI* OmniUsdLiveLockCallback)(void* userData, OmniClientResult result)
-    OMNICLIENT_CALLBACK_NOEXCEPT;
-
-// Attempt to lock a path so updates can be processed much, much faster
-// This is an alias for omniClientLock
-// The file is automatically unlocked when you disconnect
-// Note: You may need to call omniUsdLiveProcess in order to process the result if you lock a live USD file.
-//       For this reason it may not be safe to call omniClientWait on the returned request Id
-OMNICLIENT_EXPORT(OmniClientRequestId)
-    omniUsdLiveLock(const char* url, void* userData, OmniUsdLiveLockCallback callback)
-    OMNICLIENT_NOEXCEPT;
-
-typedef void
-    (OMNICLIENT_ABI* OmniUsdLiveUnlockCallback)(void* userData, OmniClientResult result)
-    OMNICLIENT_CALLBACK_NOEXCEPT;
-
-// Unlock a previously held lock
-// This is an alias for omniClientUnlock
-// Note: You may need to call omniUsdLiveProcess in order to process the result if you unlock a live USD file.
-//       For this reason it may not be safe to call omniClientWait on the returned request Id
-OMNICLIENT_EXPORT(OmniClientRequestId)
-    omniUsdLiveUnlock(const char* url, void* userData, OmniUsdLiveUnlockCallback callback)
     OMNICLIENT_NOEXCEPT;
 
 // Set parameters that control jitter reduction

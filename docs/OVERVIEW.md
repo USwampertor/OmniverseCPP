@@ -26,6 +26,8 @@ The platform is easily extensible and built to host a diversity of applications 
     <img src="./resources/nvidiaOmniverse1.jpg" alt="Nvidia Omniverse" width=100%>
 </p>
 
+_You can find more information on Nvidia Omniverse™ in the official page **[HERE](https://www.nvidia.com/en-us/omniverse/)**_
+
 This platform is designed for
 * **Individual Creators** Omniverse revolutionizes the creative workflow by enabling real-time interoperability between top industry apps, removing the antiquated need for export/import
 * **Developers** Application developers can integrate Omniverse technologies directly inside their applications or inversely, can deliver their tools and technologies to multiple DCC applications and workflows through a single platform integration.
@@ -37,8 +39,6 @@ The Omniverse platform consists of 5 key parts
 * **Simulation**: A platform created to develop physically accurate world simulations.
 * **RTX Renderer**: A renderer system accelerated by RTX technology.
 
-
-_You can find more information on Nvidia Omniverse™ in the official page **[HERE](https://www.nvidia.com/en-us/omniverse/)**_
 
 ## Nvidia Omniverse™ Nucleus
 
@@ -53,6 +53,8 @@ _You can find more information on Nvidia Omniverse™ Nucleus in the official pa
 
 ## Nvidia Omniverse™ Connect
 
+Applications and extensions that are able to connect to the Nucleus DB and Omniverse are what Nvidia defines
+
 _You can find more information on Nvidia Omniverse™ Connect in the official page **[HERE](https://docs.omniverse.nvidia.com/con_connect/con_connect/overview.html)**_
 
 ## Pixar USD
@@ -62,6 +64,8 @@ _You can find more information on Nvidia Omniverse™ Connect in the official pa
 </p>
 
 Part of the magic of Nucleus is the implementation of Pixar's open source 3D scene description and file format called **Universal Scene Descriptor** (or **USD** for short). A high performance, easily extensible format for content creation adopted in different thanks to its robust interchange between digital content creation tools. Working in the game industry, being able to collaborate in real time with other people of different teams, while being able to have a fluid working pipeline is a game changer that USD has brought upon the table of digital creation industries.
+
+The way Nucleus works in a publis/subscribe model. Clients of the platform can publish objects and subscribe to changes in them.
 
 
 </br>

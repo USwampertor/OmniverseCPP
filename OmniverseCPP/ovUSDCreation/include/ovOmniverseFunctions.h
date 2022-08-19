@@ -19,9 +19,9 @@
 // So things can be easy to understand
 static bool           g_doLiveEdit = true;
 static bool           g_omniverseLogEnabled = false;
-static String         g_error;
+static std::string    g_error;
 static UsdStageRefPtr g_stage;
-Mutex                 g_LogMutex;
+std::mutex            g_LogMutex;
 
 /*
  *	@brief  The callback called by Omniverse when creating a connection with
@@ -37,24 +37,22 @@ omniClientCallback(void* userData,
                    OmniClientConnectionStatus status) noexcept {
   // Let's just print this regardless
   {
-    UniqueLock<Mutex> lk(g_LogMutex);
+    std::unique_lock<std::mutex> lk(g_LogMutex);
 
-    cout << String("Connection Status: ") 
-         << omniClientGetConnectionStatusString(status) 
-         << " [" << url << "]" << endl;
+    std::cout << std::string("Connection Status: ") 
+              << omniClientGetConnectionStatusString(status) 
+              << " [" << url << "]" << std::endl;
   }
   if (status == eOmniClientConnectionStatus_ConnectError) {
-    // We shouldn't just exit here - we should clean up a bit, but we're going to do it anyway
-    String error("[ERROR] Failed connection, exiting.");
+    std::string error("[ERROR] Failed connection, exiting.");
     
-    cout << error << endl;
-    // throw Exception(error.c_str());
+    std::cout << error << std::endl;
   }
 }
 
 static void
 failNotify(const char* msg, const char* detail = nullptr, ...) {
-  UniqueLock<Mutex> lk(g_LogMutex);
+  std::unique_lock<std::mutex> lk(g_LogMutex);
 
   fprintf(stderr, "%s\n", msg);
   if (detail != nullptr) {
@@ -67,9 +65,9 @@ static void logCallback(const char* threadName,
                         const char* component, 
                         OmniClientLogLevel level, 
                         const char* message) noexcept {
-  UniqueLock<Mutex> lk(g_LogMutex);
+  std::unique_lock<std::mutex> lk(g_LogMutex);
   if (g_omniverseLogEnabled) {
-    puts(message);
+    printf(message);
     g_error = message;
   }
 }
@@ -121,19 +119,19 @@ endConnection() {
   return true;
 }
 
-String
-createStage(const String& url, const String& stageName = "Sample.usd") {
-  String stageUrl = url + stageName;
+std::string
+createStage(const std::string& url, const std::string& stageName = "Sample.usd") {
+  std::string stageUrl = url + stageName;
 
   // Delete the old version of this file on Omniverse and wait for the operation to complete
   {
-    UniqueLock<Mutex> lk(g_LogMutex);
-    cout << "Waiting for " << stageUrl << " to delete... " << endl;
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "Waiting for " << stageUrl << " to delete... " << std::endl;
   }
   omniClientWait(omniClientDelete(stageUrl.c_str(), nullptr, nullptr));
   {
-    UniqueLock<Mutex> lk(g_LogMutex);
-    cout << "finished" << endl;
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "finished" << std::endl;
   }
 
   // Create this file in Omniverse cleanly
@@ -141,12 +139,12 @@ createStage(const String& url, const String& stageName = "Sample.usd") {
   if (!g_stage)
   {
     failNotify("Failure to create model in Omniverse", stageUrl.c_str());
-    return String();
+    return std::string();
   }
 
   {
-    UniqueLock<Mutex> lk(g_LogMutex);
-    cout << "New stage created: " << stageUrl << endl;
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "New stage created: " << stageUrl << std::endl;
   }
 
   // Always a good idea to declare your up-ness
@@ -156,7 +154,7 @@ createStage(const String& url, const String& stageName = "Sample.usd") {
 }
 
 void
-checkpointFile(const String& url, const String& comment) {
+checkpointFile(const std::string& url, const std::string& comment) {
   if (omniUsdLiveGetDefaultEnabled()) {
     return;
   }
@@ -179,18 +177,18 @@ checkpointFile(const String& url, const String& comment) {
       [](void* userData, OmniClientResult result, char const* checkpointQuery) noexcept
       {}));
 
-    UniqueLock<Mutex> lk(g_LogMutex);
-    cout << "Adding checkpoint comment <" << comment << "> to stage <" << url << ">" << endl;
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "Adding checkpoint comment <" << comment << "> to stage <" << url << ">" << std::endl;
   }
 }
 
-String
-getUserName(const String& url) {
+std::string
+getUserName(const std::string& url) {
   // Get the username for the connection
-  String userName("_none_");
+  std::string userName("_none_");
   omniClientWait(omniClientGetServerInfo(url.c_str(), &userName, [](void* userData, OmniClientResult result, struct OmniClientServerInfo const* info) noexcept
     {
-      String* userName = static_cast<String*>(userData);
+      std::string* userName = static_cast<std::string*>(userData);
       if (userData && userName && info && info->username)
       {
         userName->assign(info->username);
@@ -198,18 +196,18 @@ getUserName(const String& url) {
     }));
   {
     // std::unique_lock<std::mutex> lk(gLogMutex);
-    // std::cout << "Connected username: " << userName << std::endl;
+    // std::std::cout << "Connected username: " << userName << std::std::endl;
   }
   return userName;
 }
 
 bool
-isValidOmniURL(const String& maybeURL) {
+isValidOmniURL(const std::string& maybeURL) {
   bool isValidURL = false;
   OmniClientUrl* url = omniClientBreakUrl(maybeURL.c_str());
   if (url->host && url->path &&
-    (String(url->scheme) == String("omniverse") ||
-      String(url->scheme) == String("omni")))
+    (std::string(url->scheme) == std::string("omniverse") ||
+      std::string(url->scheme) == std::string("omni")))
   {
     isValidURL = true;
   }
