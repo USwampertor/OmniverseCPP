@@ -28,7 +28,6 @@ static std::string    g_error;
 static UsdStageRefPtr g_stage;
 std::mutex            g_LogMutex;
 
-
 static void
 omniClientCallback(void* userData,
                    const char* url,
@@ -49,6 +48,11 @@ omniClientCallback(void* userData,
 }
 
 static void
+copyCallback() {
+
+}
+
+static void
 failNotify(const char* msg, const char* detail = nullptr, ...) {
   std::unique_lock<std::mutex> lk(g_LogMutex);
 
@@ -59,10 +63,11 @@ failNotify(const char* msg, const char* detail = nullptr, ...) {
 }
 
 // Omniverse Log callback
-static void logCallback(const char* threadName,
-  const char* component,
-  OmniClientLogLevel level,
-  const char* message) noexcept {
+static void 
+logCallback(const char* threadName,
+            const char* component,
+            OmniClientLogLevel level,
+            const char* message) noexcept {
   std::unique_lock<std::mutex> lk(g_LogMutex);
   if (g_omniverseLogEnabled) {
     printf(message);
@@ -70,14 +75,59 @@ static void logCallback(const char* threadName,
   }
 }
 
-bool
-initialize(bool doLiveEdit) {
+EXPORTABLE void
+setLiveSync(bool doLiveEdit = false) {
+  omniUsdLiveSetDefaultEnabled(doLiveEdit);
+}
+
+EXPORTABLE void
+setModeForURL(const std::string& url, int mode) {
+  omniUsdLiveSetModeForUrl(url.c_str(), static_cast<OmniUsdLiveMode>(mode));
+}
+
+EXPORTABLE bool
+getLiveSync() {
+  return omniUsdLiveGetDefaultEnabled();
+}
+
+EXPORTABLE int
+getModeForURL(const std::string& url) {
+  return static_cast<int>(omniUsdLiveGetModeForUrl(url.c_str()));
+}
+
+EXPORTABLE void
+waitForUpdates() {
+  omniUsdLiveWaitForPendingUpdates();
+}
+
+EXPORTABLE void
+setLogLevel(int logLevel = 2) {
+  omniClientSetLogLevel(static_cast<OmniClientLogLevel>(logLevel));
+}
+
+EXPORTABLE std::string
+getVersionString() {
+  return omniClientGetVersionString();
+}
+
+EXPORTABLE std::string
+getConnectionStatus(int status) {
+  return omniClientGetConnectionStatusString(static_cast<OmniClientConnectionStatus>(status));
+}
+
+EXPORTABLE std::string
+getGlobalError() {
+  return g_error;
+}
+
+EXPORTABLE bool
+initialize(bool doLiveEdit = false, int logLevel = 2) {
 
   // Register a function to be called whenever the library wants to print something to a log
   omniClientSetLogCallback(logCallback);
 
   // The default log level is "Info", set it to "Debug" to see all messages
-  omniClientSetLogLevel(eOmniClientLogLevel_Debug);
+  setLogLevel(logLevel);
 
   // Initialize the library and pass it the version constant defined in OmniClient.h
   // This allows the library to verify it was built with a compatible version. It will
@@ -89,12 +139,12 @@ initialize(bool doLiveEdit) {
   omniClientRegisterConnectionStatusCallback(nullptr, omniClientCallback);
 
   // Enable live updates
-  omniUsdLiveSetDefaultEnabled(doLiveEdit);
+  setLiveSync(doLiveEdit);
 
   return true;
 }
 
-void
+EXPORTABLE void
 shutdown() {
   // Calling this prior to shutdown ensures that all pending live updates complete.
   omniUsdLiveWaitForPendingUpdates();
@@ -107,19 +157,8 @@ shutdown() {
   omniClientShutdown();
 }
 
-
-bool
-startConnection() {
-  return true;
-}
-
-bool
-endConnection() {
-  return true;
-}
-
-std::string
-createStage(const std::string& url, const std::string& stageName = "Sample.usd") {
+EXPORTABLE void
+deleteStage(const std::string& url, const std::string& stageName = "Scene.usd") {
   std::string stageUrl = url + stageName;
 
   // Delete the old version of this file on Omniverse and wait for the operation to complete
@@ -132,6 +171,12 @@ createStage(const std::string& url, const std::string& stageName = "Sample.usd")
     std::unique_lock<std::mutex> lk(g_LogMutex);
     std::cout << "finished" << std::endl;
   }
+}
+
+EXPORTABLE std::string
+createStage(const std::string& url, const std::string& stageName = "Scene.usd") {
+  deleteStage(url, stageName);
+  std::string stageUrl = url + stageName;
 
   // Create this file in Omniverse cleanly
   g_stage = UsdStage::CreateNew(stageUrl);
@@ -152,7 +197,7 @@ createStage(const std::string& url, const std::string& stageName = "Sample.usd")
   return stageUrl;
 }
 
-void
+EXPORTABLE void
 checkpointFile(const std::string& url, const std::string& comment) {
   if (omniUsdLiveGetDefaultEnabled()) {
     return;
@@ -181,11 +226,10 @@ checkpointFile(const std::string& url, const std::string& comment) {
   }
 }
 
-std::string
-getUserName(const std::string& url) {
-  // Get the username for the connection
+EXPORTABLE std::string
+getUsername(const std::string& stageUrl) {
   std::string userName("_none_");
-  omniClientWait(omniClientGetServerInfo(url.c_str(), &userName, [](void* userData, OmniClientResult result, struct OmniClientServerInfo const* info) noexcept
+  omniClientWait(omniClientGetServerInfo(stageUrl.c_str(), &userName, [](void* userData, OmniClientResult result, struct OmniClientServerInfo const* info) noexcept
     {
       std::string* userName = static_cast<std::string*>(userData);
       if (userData && userName && info && info->username)
@@ -194,13 +238,13 @@ getUserName(const std::string& url) {
       }
     }));
   {
-    // std::unique_lock<std::mutex> lk(gLogMutex);
-    // std::std::cout << "Connected username: " << userName << std::std::endl;
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "Connected username: " << userName << std::endl;
   }
   return userName;
 }
 
-bool
+EXPORTABLE bool
 isValidOmniURL(const std::string& maybeURL) {
   bool isValidURL = false;
   OmniClientUrl* url = omniClientBreakUrl(maybeURL.c_str());
@@ -214,3 +258,44 @@ isValidOmniURL(const std::string& maybeURL) {
   return isValidURL;
 }
 
+EXPORTABLE const char*
+downloadFile(const std::string& fileName) {
+  return nullptr;
+}
+
+EXPORTABLE void
+uploadFile(const std::string& filePath, const std::string& destinyPath) {
+  omniClientWait(omniClientCopy(filePath.c_str(), destinyPath.c_str(), copyCallback, nullptr ));
+}
+
+EXPORTABLE const char*
+downloadMaterial(const std::string& filePath) {
+  return nullptr;
+}
+
+EXPORTABLE void
+uploadMaterial(const std::string& filePath, const std::string& destinationPath) {
+  std::string uriPath = destinationPath;
+
+  // Delete the old version of this folder on Omniverse and wait for the operation to complete
+  {
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "Waiting for " << uriPath << " to delete... ";
+  }
+  omniClientWait(omniClientDelete(uriPath.c_str(), nullptr, nullptr));
+  {
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "finished" << std::endl;
+  }
+
+  // Upload the material folder (MDL and textures)
+  {
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "Waiting for the resources/Materials folder to upload to " << uriPath << " ... ";
+  }
+  omniClientWait(omniClientCopy(filePath.c_str(), uriPath.c_str(), nullptr, nullptr));
+  {
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "finished" << std::endl;
+  }
+}
