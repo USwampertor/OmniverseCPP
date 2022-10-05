@@ -2,14 +2,34 @@
 // This library allows us to connect to Nucleus
 #include <OmniClient.h>
 
-// This library gives us the ability for live synchronization and USD updates
-#include <OmniUsdLive.h>
-
 // This libraries help us create USD objects and components
-#include <pxr/usd/usd/common.h>
+
+#include <OmniUsdResolver.h>
+#include "OmniChannel.h"
+#include "LiveSessionInfo.h"
+#include "LiveSessionConfigFile.h"
+
+#include <pxr/base/gf/matrix4f.h>
+#include <pxr/base/gf/vec2f.h>
+#include <pxr/base/plug/registry.h>
 #include <pxr/usd/usd/stage.h>
+#include <pxr/usd/usd/prim.h>
+#include <pxr/usd/usd/primRange.h>
+#include <pxr/usd/usd/modelAPI.h>
+#include <pxr/usd/usdLux/distantLight.h>
+#include <pxr/usd/usdLux/domeLight.h>
+#include <pxr/usd/usdGeom/xform.h>
+#include <pxr/usd/usdGeom/cube.h>
+#include <pxr/usd/usdGeom/primvar.h>
 #include <pxr/usd/usdGeom/mesh.h>
 #include <pxr/usd/usdGeom/metrics.h>
+#include <pxr/usd/usdUtils/pipeline.h>
+#include <pxr/usd/usdUtils/sparseValueWriter.h>
+#include <pxr/usd/usdShade/shader.h>
+#include <pxr/usd/usdShade/material.h>
+#include <pxr/usd/usdShade/input.h>
+#include <pxr/usd/usdShade/output.h>
+#include <pxr/usd/usdShade/materialBindingAPI.h>
 
 // Standard libraries
 #include <cstdio>
@@ -18,8 +38,19 @@
 #include <mutex>
 #include <exception>
 
-PXR_NAMESPACE_USING_DIRECTIVE
+#ifdef _WIN32
+#include <conio.h>
+#include <windows.h>
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <limits.h>
+#include <unistd.h>     //readlink
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
 
+PXR_NAMESPACE_USING_DIRECTIVE
 
 // Making things easier to work with, will rename a few classes and define we are
 // using a few variables

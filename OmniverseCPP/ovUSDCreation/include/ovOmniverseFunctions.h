@@ -14,6 +14,20 @@
 
 #include "ovPrerequisites.h"
 
+// Get the Absolute path of the current executable
+// Borrowed from https://stackoverflow.com/questions/1528298/get-path-of-executable
+static fs::path getExePath()
+{
+#ifdef _WIN32
+  wchar_t path[MAX_PATH] = { 0 };
+  GetModuleFileNameW(NULL, path, MAX_PATH);
+  return path;
+#else
+  char result[PATH_MAX];
+  ssize_t count = readlink("/proc/self/exe", result, PATH_MAX);
+  return std::string(result, (count > 0) ? count : 0);
+#endif
+}
 
 // While I do not personally like global variables, we will create ones for the example
 // So things can be easy to understand
@@ -75,6 +89,17 @@ static void logCallback(const char* threadName,
 bool
 initialize(bool doLiveEdit) {
 
+
+  // Find absolute path of the resolver plugins `resources` folder
+  std::string pluginResourcesFolder = getExePath().parent_path().string() + "/usd/omniverse/resources";
+  PlugRegistry::GetInstance().RegisterPlugins(pluginResourcesFolder);
+  std::string PluginName = "OmniUsdResolver";
+  if (TfType::FindByName(PluginName).IsUnknown())
+  {
+    failNotify("Could not find the Omniverse USD Resolver plugin");
+    return false;
+  }
+
   // Register a function to be called whenever the library wants to print something to a log
   omniClientSetLogCallback(logCallback);
 
@@ -91,7 +116,8 @@ initialize(bool doLiveEdit) {
   omniClientRegisterConnectionStatusCallback(nullptr, omniClientCallback);
 
   // Enable live updates
-  omniUsdLiveSetDefaultEnabled(doLiveEdit);
+  // Version 200 doesn't use it
+  // omniUsdLiveSetDefaultEnabled(doLiveEdit);
 
   return true;
 }
@@ -99,7 +125,10 @@ initialize(bool doLiveEdit) {
 void
 shutdown() {
   // Calling this prior to shutdown ensures that all pending live updates complete.
-  omniUsdLiveWaitForPendingUpdates();
+  // Version 104 obsolete
+  // omniUsdLiveWaitForPendingUpdates();
+  omniClientLiveWaitForPendingUpdates();
+
 
   // The stage is a sophisticated object that needs to be destroyed properly.  
   // Since gStage is a smart pointer we can just reset it
@@ -155,9 +184,11 @@ createStage(const std::string& url, const std::string& stageName = "Sample.usd")
 
 void
 checkpointFile(const std::string& url, const std::string& comment) {
-  if (omniUsdLiveGetDefaultEnabled()) {
-    return;
-  }
+
+  // Version 104 OBSOLETE
+  // if (omniUsdLiveGetDefaultEnabled()) {
+  //   return;
+  // }
 
   bool bCheckpointsSupported = false;
   omniClientWait(omniClientGetServerInfo(url.c_str(), &bCheckpointsSupported,
