@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorGIMP", "ovConnec
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovCLibrary", "ovCLibrary\ovCLibrary.vcxproj", "{4DC3577A-1151-414C-BD2F-183A2D91FE8A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovFirstSteps", "ovFirstSteps\ovFirstSteps.vcxproj", "{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -89,6 +91,14 @@ Global
 		{4DC3577A-1151-414C-BD2F-183A2D91FE8A}.Release|x64.Build.0 = Release|x64
 		{4DC3577A-1151-414C-BD2F-183A2D91FE8A}.Release|x86.ActiveCfg = Release|Win32
 		{4DC3577A-1151-414C-BD2F-183A2D91FE8A}.Release|x86.Build.0 = Release|Win32
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Debug|x64.ActiveCfg = Debug|x64
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Debug|x64.Build.0 = Debug|x64
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Debug|x86.ActiveCfg = Debug|Win32
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Debug|x86.Build.0 = Debug|Win32
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Release|x64.ActiveCfg = Release|x64
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Release|x64.Build.0 = Release|x64
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Release|x86.ActiveCfg = Release|Win32
+		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
