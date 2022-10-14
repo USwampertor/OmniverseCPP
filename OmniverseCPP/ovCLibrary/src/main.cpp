@@ -15,13 +15,30 @@
 extern "C"
 {
   EXPORTABLE void
-  jsSetLiveSync(bool doLiveEdit = false) {
+  jsSetLiveSync(bool doLiveEdit = true) {
     setLiveSync(doLiveEdit);
+  }
+
+  EXPORTABLE bool
+  jsGetLiveSync() {
+    return getLiveSync();
   }
 
   EXPORTABLE void
   jsSetLogLevel(int logLevel = 2) {
     setLogLevel(logLevel);
+  }
+
+  EXPORTABLE const char*
+  jsGetVersion() {
+    std::string version = getVersionString().c_str();
+    return version.c_str();
+  }
+
+  EXPORTABLE const char*
+  jsGetConnectionStatus(int status) {
+    std::string connection = getConnectionStatus(status).c_str();
+    return connection.c_str();
   }
 
   EXPORTABLE const char*
@@ -68,10 +85,106 @@ extern "C"
     return isValidOmniURL(maybeURL);
   }
 
+  EXPORTABLE const char*
+  jsDownloadFile(const char* fileName) {
+    return downloadFile(fileName);
+  }
+
+  EXPORTABLE void
+  jsUploadFile(const char* filePath, const char* destinyPath) {
+    uploadFile(filePath, destinyPath);
+  }
+
+  EXPORTABLE const char*
+  jsDownloadMaterial(const char* filePath) {
+    return downloadMaterial(filePath);
+  }
+
+  EXPORTABLE void
+  uploadMaterial(const char* filePath, const char* destinationPath) {
+    return uploadMaterial(filePath, destinationPath);
+  }
+
+  EXPORTABLE void
+  jsgetSessions() {
+    return getSessions();
+  }
+
+  EXPORTABLE const char*
+  jsGetSessionName(int at) {
+    return getSessionName(at);
+  }
+
+  EXPORTABLE int 
+  jsGetSessionListSize() {
+    return getSessionListSize();
+  }
+
+  EXPORTABLE void
+  jsJoinSession(int at) {
+    return joinSession(at);
+  }
 
 
+  EXPORTABLE bool
+  jsIsSessionNameValid(const char* newSessionName) {
+    return isSessionNameValid(newSessionName);
+  }
 
+  EXPORTABLE bool
+  jsCreateSession(const char* newSessionName) {
+    return createSession(newSessionName);
+  }
 
+  EXPORTABLE bool
+  jsEndAndMergeSession() {
+    return endAndMergeSession();
+  }
+
+  EXPORTABLE void
+  jsInitializeLiveSessionInfo(const char* existingStage) {
+    return initializeLiveSessionInfo(existingStage);
+  }
+
+  EXPORTABLE void
+  jsSetChannelURL() {
+    return setChannelURL();
+  }
+
+  EXPORTABLE void
+  jsSetAppName(const char* appName) {
+    return setAppName(appName);
+  }
+
+  EXPORTABLE void
+  jsRegisterChannelCallback() {
+    return registerChannelCallback();
+  }
+
+  EXPORTABLE void 
+  jsJoinChannel() {
+    return joinChannel();
+  }
+
+  EXPORTABLE void
+  jsLeaveChannel() {
+    return leaveChannel();
+  }
+
+  EXPORTABLE void 
+  jsStartApp(int mseconds) {
+    return startApp(mseconds);
+  }
+
+  EXPORTABLE void
+  jsRunApp() {
+    return runApp();
+  }
+
+  EXPORTABLE void
+  jsStopApp() {
+    return stopApp();
+  }
 
 
   /// <summary>
