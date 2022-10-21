@@ -11,8 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovUSDLiveSync", "ovUSDLiveS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorMaya", "ovConnectorMaya\ovConnectorMaya.vcxproj", "{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorPhotoshop", "ovConnectorPhotoshop\ovConnectorPhotoshop.vcxproj", "{133425A8-7417-41BF-A7D0-E97D2F88C946}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorCustomEngine", "ovConnectorCustomEngine\ovConnectorCustomEngine.vcxproj", "{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovCustomExplorer", "ovCustomExplorer\ovCustomExplorer.vcxproj", "{63320EA3-5F14-44C1-83B5-98BA1FBA8784}"
@@ -22,6 +20,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovCLibrary", "ovCLibrary\ovCLibrary.vcxproj", "{4DC3577A-1151-414C-BD2F-183A2D91FE8A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovFirstSteps", "ovFirstSteps\ovFirstSteps.vcxproj", "{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ovConnectorPhotoshop", "ovConnectorPhotoshop\ovConnectorPhotoshop.vcxproj", "{A8F779F6-8081-49FB-8D1A-52609D5224D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,12 +55,6 @@ Global
 		{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}.Release|x64.ActiveCfg = Release|x64
 		{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}.Release|x64.Build.0 = Release|x64
 		{36CFDD6E-3BE7-4B7C-B346-37E8D7EFAE39}.Release|x86.ActiveCfg = Release|x64
-		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Debug|x64.ActiveCfg = Debug|x64
-		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Debug|x64.Build.0 = Debug|x64
-		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Debug|x86.ActiveCfg = Debug|x64
-		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Release|x64.ActiveCfg = Release|x64
-		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Release|x64.Build.0 = Release|x64
-		{133425A8-7417-41BF-A7D0-E97D2F88C946}.Release|x86.ActiveCfg = Release|x64
 		{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}.Debug|x64.ActiveCfg = Debug|x64
 		{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}.Debug|x64.Build.0 = Debug|x64
 		{5797A217-38F3-4BE4-B2E7-DCF9483F59B4}.Debug|x86.ActiveCfg = Debug|x64
@@ -99,6 +93,14 @@ Global
 		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Release|x64.Build.0 = Release|x64
 		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Release|x86.ActiveCfg = Release|Win32
 		{AEBA58AA-3511-4A0E-8CBF-3A49D2CD3456}.Release|x86.Build.0 = Release|Win32
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Debug|x64.ActiveCfg = Debug|x64
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Debug|x64.Build.0 = Debug|x64
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Debug|x86.ActiveCfg = Debug|Win32
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Debug|x86.Build.0 = Debug|Win32
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Release|x64.ActiveCfg = Release|x64
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Release|x64.Build.0 = Release|x64
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Release|x86.ActiveCfg = Release|Win32
+		{A8F779F6-8081-49FB-8D1A-52609D5224D7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
