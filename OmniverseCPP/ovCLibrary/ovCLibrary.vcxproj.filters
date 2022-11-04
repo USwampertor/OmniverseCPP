@@ -32,9 +32,6 @@
     <ClInclude Include="include\ovFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ovUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\LiveSessionConfigFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>

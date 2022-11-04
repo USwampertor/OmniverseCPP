@@ -84,6 +84,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(Configuration)/</OutDir>
     <IntDir>$(SolutionDir)intermediate/$(ProjectName)/$(PlatformTarget)/$(Configuration)/</IntDir>
+    <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -189,7 +190,6 @@
     <ClInclude Include="include\LiveSessionInfo.h" />
     <ClInclude Include="include\OmniChannel.h" />
     <ClInclude Include="include\ovFunctions.h" />
-    <ClInclude Include="include\ovUtils.h" />
     <ClInclude Include="include\primUtils.h" />
     <ClInclude Include="include\xformUtils.h" />
   </ItemGroup>
