@@ -39,6 +39,7 @@
 #include <iostream>
 #include <mutex>
 #include <exception>
+#include <fstream>
 
 #ifdef _WIN32
 #include <conio.h>
@@ -59,6 +60,11 @@ PXR_NAMESPACE_USING_DIRECTIVE
 static bool           g_doLiveEdit = true;
 static bool           g_omniverseLogEnabled = false;
 static std::string    g_error;
+static std::string    g_logString;
+static std::string    g_userName;
+static std::string    g_stageName;
+static std::string    g_version;
+static std::string    g_connection;
 std::mutex            g_LogMutex;
 static bool           g_isLive;
 static bool           g_stageMerged;
@@ -114,10 +120,14 @@ omniClientCallback(void* userData,
   // Let's just print this regardless
   {
     std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::string message = std::string("Connection Status: ") + 
+                          omniClientGetConnectionStatusString(status) + 
+                          std::string(" [") + 
+                          url + 
+                          std::string("]\n");
+    std::cout << message;
+    g_logString = message;
 
-    std::cout << std::string("Connection Status: ")
-              << omniClientGetConnectionStatusString(status)
-              << " [" << url << "]" << std::endl;
   }
   if (status == eOmniClientConnectionStatus_ConnectError) {
     std::string error("[ERROR] Failed connection, exiting.");
@@ -221,7 +231,7 @@ getGlobalError() {
 
 EXPORTABLE bool
 initialize(bool doLiveEdit = false, int logLevel = 2) {
-
+  g_logString = "";
   // Find absolute path of the resolver plugins `resources` folder
   std::string pluginResourcesFolder = getExePath().parent_path().string() + "/usd/omniverse/resources";
   PlugRegistry::GetInstance().RegisterPlugins(pluginResourcesFolder);
@@ -367,12 +377,20 @@ isValidOmniURL(const std::string& maybeURL) {
 }
 
 EXPORTABLE const char*
-downloadFile(const std::string& fileName) {
-  return nullptr;
+getFile(const std::string& filePath, const std::string& destinyPath) {
+  omniClientWait(omniClientCopy(filePath.c_str(), destinyPath.c_str(), copyCallback, nullptr));
+
+  std::fstream f;
+  f.open(destinyPath, std::ios::out | std::ios::app | std::ios::binary);
+  std::ostringstream sstream;
+  std::ifstream fs("test.txt");
+  sstream << fs.rdbuf();
+  const std::string str(sstream.str());
+  return str.c_str();
 }
 
 EXPORTABLE void
-uploadFile(const std::string& filePath, const std::string& destinyPath) {
+transferFile(const std::string& filePath, const std::string& destinyPath) {
   omniClientWait(omniClientCopy(filePath.c_str(), destinyPath.c_str(), copyCallback, nullptr ));
 }
 

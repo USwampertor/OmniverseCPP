@@ -10,7 +10,6 @@
 
 
 #include "ovFunctions.h"
-// #define EXPORTABLE __declspec(dllexport)
 
 extern "C"
 {
@@ -31,20 +30,24 @@ extern "C"
 
   EXPORTABLE const char*
   jsGetVersion() {
-    std::string version = getVersionString().c_str();
-    return version.c_str();
+    g_version = getVersionString().c_str();
+    return g_version.c_str();
   }
 
   EXPORTABLE const char*
   jsGetConnectionStatus(int status) {
-    std::string connection = getConnectionStatus(status).c_str();
-    return connection.c_str();
+    g_connection = getConnectionStatus(status).c_str();
+    return g_connection.c_str();
   }
 
   EXPORTABLE const char*
   jsGetGlobalError() {
-    std::string error = getGlobalError().c_str();
-    return error.c_str();
+    return getGlobalError().c_str();
+  }
+
+  EXPORTABLE const char*
+  jsGetLogString() {
+    return g_logString.c_str();
   }
 
   EXPORTABLE bool 
@@ -58,26 +61,28 @@ extern "C"
   }
  
   EXPORTABLE void
-  jsDeleteStage(const std::string& url, const std::string& stageName = "Scene.usd") {
+  jsDeleteStage(const char* url, const char* stageName = "Scene.usd") {
     deleteStage(url, stageName);
   }
 
 
   EXPORTABLE const char*
   jsCreateStage(const char* path, const char* name = "Scene.usd") {
-    std::string stage = createStage(std::string(path), std::string(name)).c_str();
-    return stage.c_str();
+   g_stageName = createStage(std::string(path), std::string(name)).c_str();
+    std::cout << g_stageName << std::endl;
+    return g_stageName.c_str();
   }
 
   EXPORTABLE void
-  jsCheckpointFile(const std::string& url, const std::string& comment) {
+  jsCheckpointFile(const char* url, const char* comment) {
     checkpointFile(url, comment);
   }
 
   EXPORTABLE const char*
   jsGetUsername(const char* url) {
-    std::string userName = getUsername(url).c_str();
-    return userName.c_str();
+    g_userName = getUsername(url).c_str();
+    std::cout << g_userName << std::endl;
+    return g_userName.c_str();
   }
 
   EXPORTABLE bool
@@ -86,13 +91,13 @@ extern "C"
   }
 
   EXPORTABLE const char*
-  jsDownloadFile(const char* fileName) {
-    return downloadFile(fileName);
+  jsGetFile(const char* filePath, const char* destinyPath) {
+    return getFile(filePath, destinyPath);
   }
 
   EXPORTABLE void
-  jsUploadFile(const char* filePath, const char* destinyPath) {
-    uploadFile(filePath, destinyPath);
+  jsTransferFile(const char* filePath, const char* destinyPath) {
+    transferFile(filePath, destinyPath);
   }
 
   EXPORTABLE const char*
