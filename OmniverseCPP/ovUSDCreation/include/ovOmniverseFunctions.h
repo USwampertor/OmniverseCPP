@@ -75,7 +75,7 @@ failNotify(const char* msg, const char* detail = nullptr, ...) {
 }
 
 // Omniverse Log callback
-static void logCallback(const char* threadName, 
+static void omniLogCallback(const char* threadName, 
                         const char* component, 
                         OmniClientLogLevel level, 
                         const char* message) noexcept {
@@ -101,7 +101,7 @@ initialize(bool doLiveEdit) {
   }
 
   // Register a function to be called whenever the library wants to print something to a log
-  omniClientSetLogCallback(logCallback);
+  omniClientSetLogCallback(omniLogCallback);
 
   // The default log level is "Info", set it to "Debug" to see all messages
   omniClientSetLogLevel(eOmniClientLogLevel_Debug);

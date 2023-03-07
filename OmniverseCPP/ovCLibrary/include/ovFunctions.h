@@ -45,6 +45,7 @@
 #include <conio.h>
 #include <windows.h>
 #include <filesystem>
+#include <vector>
 namespace fs = std::filesystem;
 #else
 #include <limits.h>
@@ -68,12 +69,103 @@ static std::string    g_connection;
 std::mutex            g_LogMutex;
 static bool           g_isLive;
 static bool           g_stageMerged;
+static std::string    g_localFile;
 
 static UsdStageRefPtr   g_stage;
 static LiveSessionInfo  g_liveSessionInfo;
 static OmniChannel      g_omniChannel;
 static std::vector<std::string> g_sessions;
 static std::thread              g_channelUpdateThread;
+
+
+EXPORTABLE struct OmniFolderEntry
+{
+  OmniFolderEntry() = default;
+
+  OmniFolderEntry(const OmniClientListEntry& entry)
+  {
+    size_t size = std::strlen(entry.relativePath) + 1;
+    char* tmp = new char[size];
+    std::memset(tmp, 0, size);
+    std::memcpy(tmp, &entry.relativePath[0], size);
+    relativePath = std::move(tmp);
+
+    access = entry.access;
+    flags = entry.flags;
+    size = entry.size;
+    modifiedTimeNs = entry.modifiedTimeNs;
+    createdTimeNs = entry.createdTimeNs;
+    
+    size = std::strlen(entry.modifiedBy) + 1;
+    tmp = new char[size];
+    std::memset(tmp, 0, size);
+    std::memcpy(tmp, &entry.modifiedBy[0], size);
+    modifiedBy = std::move(tmp);
+
+    size = std::strlen(entry.createdBy) + 1;
+    tmp = new char[size];
+    std::memset(tmp, 0, size);
+    std::memcpy(tmp, &entry.createdBy[0], size);
+    createdBy = std::move(tmp);
+
+    size = std::strlen(entry.version) + 1;
+    tmp = new char[size];
+    std::memset(tmp, 0, size);
+    std::memcpy(tmp, &entry.version[0], size);
+    version = std::move(tmp);
+
+    size = std::strlen(entry.hash) + 1;
+    tmp = new char[size];
+    std::memset(tmp, 0, size);
+    std::memcpy(tmp, &entry.hash[0], size);
+    hash = std::move(tmp);
+
+    size = std::strlen(entry.comment) + 1;
+    tmp = new char[size];
+    std::memset(tmp, 0, size);
+    std::memcpy(tmp, &entry.comment[0], size);
+    comment = std::move(tmp);
+  }
+
+  const char* relativePath;
+
+  //! YOUR access level
+  uint32_t access;
+
+  //! Information about this item
+  uint32_t flags;
+
+  //! For files, the size in bytes. Undefined for other types.
+  uint64_t size;
+
+  //! Nanoseconds since the Unix epoch (1 January 1970) of the last time the file was modified
+  uint64_t modifiedTimeNs;
+
+  //! Nanoseconds since the Unix epoch (1 January 1970) of when the file was created
+  uint64_t createdTimeNs;
+
+  //! User name of the last person to modify it
+  const char* modifiedBy;
+  
+  //! User name of the person that created it
+  const char* createdBy;
+  
+  //! Provider-specific version
+  const char* version;
+  
+  //! Provider specific file hash
+  const char* hash;
+  
+  //! Provider specific comment
+  const char* comment;
+};
+
+EXPORTABLE struct OmniFolderData
+{
+  std::vector<OmniFolderEntry*> entries;
+  uint32_t size;
+  OmniClientResult lastFetchingResult;
+};
 
 EXPORTABLE class AppUpdate
 {
@@ -97,6 +189,7 @@ public:
 };
 
 static AppUpdate*        g_appUpdate = nullptr;
+static OmniFolderData* g_folderData = nullptr;
 
 // Get the Absolute path of the current executable
 // Borrowed from https://stackoverflow.com/questions/1528298/get-path-of-executable
@@ -131,14 +224,71 @@ omniClientCallback(void* userData,
   }
   if (status == eOmniClientConnectionStatus_ConnectError) {
     std::string error("[ERROR] Failed connection, exiting.");
-
+    g_error = error;
     std::cout << error << std::endl;
   }
 }
 
 static void
-copyCallback() {
+omniExistCallback(void* userData, OmniClientResult result, struct OmniClientListEntry const* entry) {
+  switch (result)
+  {
+  case eOmniClientResult_Ok:
+  case eOmniClientResult_OkLatest:
+  case eOmniClientResult_OkNotYetFound:
+    *(bool*)userData = true;
+    break;
+  default:
+    *(bool*)userData = false;
+    break;
+  }
+}
 
+static void
+omniListCallback(void* userData, 
+                 OmniClientResult result, 
+                 uint32_t numEntries, 
+                 struct OmniClientListEntry const* entries) {
+
+  if (g_folderData == nullptr) {
+    std::cout << "g_FolderData has never been called, creating new object" << std::endl;
+    g_folderData = new OmniFolderData();
+  }
+  g_folderData->lastFetchingResult = result;
+  if (result != eOmniClientResult_Ok) {
+    // We can check what the error was
+    return;
+  }
+
+  std::vector<OmniFolderEntry*>::iterator it;
+  for (it = g_folderData->entries.end(); it != g_folderData->entries.begin(); ) {
+    --it;
+    delete* it;
+    it = g_folderData->entries.erase(it);
+  }
+  
+  g_folderData->entries.clear();
+
+  g_folderData->size = numEntries;
+
+  for (int i = 0; i < numEntries; ++i) {
+    g_folderData->entries.push_back(new OmniFolderEntry(entries[i]));
+    std::cout << g_folderData->entries[i]->relativePath << std::endl;
+  }
+  std::cout << g_folderData->entries.size() << " : " << g_folderData->size << std::endl;
+}
+
+static void
+omniCopyCallback(void* userData, OmniClientResult result) {
+  std::cout << result << std::endl;
+}
+
+static void
+omniLocalCallback(void* userData, 
+                  OmniClientResult result, 
+                  char const* localFilePath) {
+  std::cout << "fetching local file callback" << std::endl;
+  g_localFile = localFilePath;
 }
 
 static void
@@ -158,6 +308,20 @@ omniMergeCallback(OmniChannelMessage::MessageType messageType,
   }
 }
 
+// Omniverse Log callback
+static void 
+omniLogCallback(const char* threadName,
+                const char* component,
+                OmniClientLogLevel level,
+                const char* message) noexcept {
+  std::unique_lock<std::mutex> lk(g_LogMutex);
+  if (g_omniverseLogEnabled) {
+    printf(message);
+    g_error = message;
+  }
+}
+
+
 static void
 failNotify(const char* msg, const char* detail = nullptr, ...) {
   std::unique_lock<std::mutex> lk(g_LogMutex);
@@ -168,28 +332,15 @@ failNotify(const char* msg, const char* detail = nullptr, ...) {
   }
 }
 
-// Omniverse Log callback
-static void 
-logCallback(const char* threadName,
-            const char* component,
-            OmniClientLogLevel level,
-            const char* message) noexcept {
-  std::unique_lock<std::mutex> lk(g_LogMutex);
-  if (g_omniverseLogEnabled) {
-    printf(message);
-    g_error = message;
-  }
-}
+// EXPORTABLE void
+// setModeForURL(const std::string& url, int mode) {
+//   omniUsdLiveSetModeForUrl(url.c_str(), static_cast<OmniUsdLiveMode>(mode));
+// }
 
 EXPORTABLE void
 setLiveSync(bool doLiveEdit = false) {
   g_isLive = doLiveEdit;
 }
-
-// EXPORTABLE void
-// setModeForURL(const std::string& url, int mode) {
-//   omniUsdLiveSetModeForUrl(url.c_str(), static_cast<OmniUsdLiveMode>(mode));
-// }
 
 EXPORTABLE bool
 getLiveSync() {
@@ -232,6 +383,7 @@ getGlobalError() {
 EXPORTABLE bool
 initialize(bool doLiveEdit = false, int logLevel = 2) {
   g_logString = "";
+  g_localFile = "";
   // Find absolute path of the resolver plugins `resources` folder
   std::string pluginResourcesFolder = getExePath().parent_path().string() + "/usd/omniverse/resources";
   PlugRegistry::GetInstance().RegisterPlugins(pluginResourcesFolder);
@@ -242,7 +394,7 @@ initialize(bool doLiveEdit = false, int logLevel = 2) {
   }
 
   // Register a function to be called whenever the library wants to print something to a log
-  omniClientSetLogCallback(logCallback);
+  omniClientSetLogCallback(omniLogCallback);
 
   // The default log level is "Info", set it to "Debug" to see all messages
   setLogLevel(logLevel);
@@ -344,14 +496,44 @@ checkpointFile(const std::string& url, const std::string& comment, bool force = 
   }
 }
 
+EXPORTABLE bool
+urlObjectExists(const std::string& maybeFile) {
+  
+  bool retCode = false;
+  omniClientWait(omniClientStat(maybeFile.c_str(), &retCode, omniExistCallback));
+  return retCode;
+
+}
+
+EXPORTABLE bool
+isValidOmniURL(const std::string& maybeURL) {
+  bool isValidURL = false;
+  OmniClientUrl* url = omniClientBreakUrl(maybeURL.c_str());
+  if (url->host && url->path &&
+    (std::string(url->scheme) == std::string("omniverse") ||
+      std::string(url->scheme) == std::string("omni"))) {
+    isValidURL = true;
+  }
+  omniClientFreeUrl(url);
+  return isValidURL;
+}
+
+EXPORTABLE void
+forceConnect(const std::string& url) {
+  omniClientReconnect(url.c_str());
+}
+
 EXPORTABLE std::string
 getUsername(const std::string& stageUrl) {
   std::string userName("_none_");
-  omniClientWait(omniClientGetServerInfo(stageUrl.c_str(), &userName, [](void* userData, OmniClientResult result, struct OmniClientServerInfo const* info) noexcept
-    {
+  omniClientWait(omniClientGetServerInfo(stageUrl.c_str(), 
+                                         &userName, 
+                                         [](void* userData, 
+                                            OmniClientResult result, 
+                                            struct OmniClientServerInfo 
+                                            const* info) noexcept {
       std::string* userName = static_cast<std::string*>(userData);
-      if (userData && userName && info && info->username)
-      {
+      if (userData && userName && info && info->username) {
         userName->assign(info->username);
       }
     }));
@@ -362,36 +544,80 @@ getUsername(const std::string& stageUrl) {
   return userName;
 }
 
-EXPORTABLE bool
-isValidOmniURL(const std::string& maybeURL) {
-  bool isValidURL = false;
-  OmniClientUrl* url = omniClientBreakUrl(maybeURL.c_str());
-  if (url->host && url->path &&
-    (std::string(url->scheme) == std::string("omniverse") ||
-      std::string(url->scheme) == std::string("omni")))
-  {
-    isValidURL = true;
-  }
-  omniClientFreeUrl(url);
-  return isValidURL;
-}
-
 EXPORTABLE const char*
 getFile(const std::string& filePath, const std::string& destinyPath) {
-  omniClientWait(omniClientCopy(filePath.c_str(), destinyPath.c_str(), copyCallback, nullptr));
+  omniClientWait(omniClientCopy(filePath.c_str(), destinyPath.c_str(), nullptr, omniCopyCallback));
 
   std::fstream f;
   f.open(destinyPath, std::ios::out | std::ios::app | std::ios::binary);
   std::ostringstream sstream;
-  std::ifstream fs("test.txt");
+  std::ifstream fs;
   sstream << fs.rdbuf();
   const std::string str(sstream.str());
   return str.c_str();
 }
 
+EXPORTABLE std::string&
+getLocalFile(const std::string& filePath) {
+  std::cout << "Getting local file... " + filePath << std::endl;
+  omniClientWait(omniClientGetLocalFile(filePath.c_str(), nullptr, omniLocalCallback));
+
+  return g_localFile;
+}
+
+EXPORTABLE int
+getFolderCount() {
+  return g_folderData->size;
+}
+
+EXPORTABLE bool
+isEntryFolder(int count) {
+  return count < g_folderData->size ?
+          g_folderData->entries[count]->flags & fOmniClientItem_CanHaveChildren :
+          false;
+}
+
+EXPORTABLE void
+fetchFolderEntries(const std::string& folderPath) {
+  omniClientWait(omniClientList(folderPath.c_str(), nullptr, omniListCallback));
+}
+
+
+EXPORTABLE OmniFolderEntry* 
+fetchFileEntry(int position)
+{
+  std::cout << "fetching from g_folderData" << std::endl;
+  if (g_folderData == nullptr) {
+    std::cout << "g_folderData is nullptr" << std::endl;
+    return nullptr; 
+  }
+
+  if (position < g_folderData->size)
+  {
+    std::cout << "File is " << g_folderData->entries[position]->relativePath << std::endl;
+    return g_folderData->entries[position];
+  }
+  std::cout << "position is bigger than the list" << std::endl;
+  return  nullptr;
+}
+
+
 EXPORTABLE void
 transferFile(const std::string& filePath, const std::string& destinyPath) {
-  omniClientWait(omniClientCopy(filePath.c_str(), destinyPath.c_str(), copyCallback, nullptr ));
+  omniClientWait(omniClientCopy(filePath.c_str(), destinyPath.c_str(), nullptr, omniCopyCallback, eOmniClientCopy_Overwrite ));
+}
+
+EXPORTABLE void
+deleteFile(const std::string& filePath) {
+  {
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "Waiting for " << filePath << " to delete... " << std::endl;
+  }
+  omniClientWait(omniClientDelete(filePath.c_str(), nullptr, nullptr));
+  {
+    std::unique_lock<std::mutex> lk(g_LogMutex);
+    std::cout << "finished" << std::endl;
+  }
 }
 
 EXPORTABLE const char*
@@ -514,6 +740,7 @@ EXPORTABLE bool createSession(const std::string& newSessionName) {
   // Construct the layers so that we can join the session
   g_stage->GetSessionLayer()->InsertSubLayerPath(liveLayer->GetIdentifier());
   g_stage->SetEditTarget(UsdEditTarget(liveLayer));
+  return true;
 }
 
 EXPORTABLE bool endAndMergeSession() {
