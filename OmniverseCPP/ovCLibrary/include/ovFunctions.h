@@ -77,7 +77,9 @@ static OmniChannel      g_omniChannel;
 static std::vector<std::string> g_sessions;
 static std::thread              g_channelUpdateThread;
 
-
+/**
+ * C type folder entry equivalent to the OmniClientListEntry from Omniverse C++
+ */
 EXPORTABLE struct OmniFolderEntry
 {
   OmniFolderEntry() = default;
@@ -160,6 +162,9 @@ EXPORTABLE struct OmniFolderEntry
   const char* comment;
 };
 
+/**
+ * Data of a folder from Omniverse
+ */
 EXPORTABLE struct OmniFolderData
 {
   std::vector<OmniFolderEntry*> entries;
