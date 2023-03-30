@@ -191,6 +191,7 @@
     <ClInclude Include="include\OmniChannel.h" />
     <ClInclude Include="include\ovClient.h" />
     <ClInclude Include="include\ovFunctions.h" />
+    <ClInclude Include="include\ovUSD.h" />
     <ClInclude Include="include\primUtils.h" />
     <ClInclude Include="include\xformUtils.h" />
   </ItemGroup>
